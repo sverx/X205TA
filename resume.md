@@ -1,4 +1,4 @@
-Touchpad might not be working when waking up after suspend.
+Touchpad might not be working when resuming after suspension.
 
 A possible solution might be to add a systemd script to unload and reload the *elan_i2c* module when resuming.
 
