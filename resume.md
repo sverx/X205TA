@@ -2,7 +2,7 @@ Touchpad might not be working when resuming after suspension.
 
 A possible solution might be to add a systemd script to unload and reload the *elan_i2c* module when resuming.
 
-Add a script in `/lib/systemd/system-sleep/`, for instance `resume.sh`:
+Create a script `/lib/systemd/system-sleep/resume.sh`:
 
 ```
 #!/bin/sh
@@ -22,7 +22,7 @@ esac
 exit 0
 ```
 
-remember to set the execute bit on the script with `sudo chmod +x /lib/systemd/system-sleep/resume.sh`
+and set the execute bit on the script with `sudo chmod +x /lib/systemd/system-sleep/resume.sh`
 
 original source: https://ubuntuforums.org/showthread.php?t=2254322&page=220&p=14106356#post14106356
 

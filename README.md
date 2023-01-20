@@ -2,11 +2,12 @@
 
 A collection of documents on how to fix issues running Linux (Debian/Ubuntu/derivates) on an ASUS X205TA
 
-* bluetooth.md contains instructions on how to fix the bluetooth issues
 * bootloader.md contains instructions on how to install the 32 bit UEFI bootloader
+* bluetooth.md contains instructions on how to fix the bluetooth issues
 * headphones.md contains instructions on how to get audio from the headphones
 * resume.md contains instructions on how to get the touchpad working again after resuming from suspension
-* hotkeys.md contains instructions on how to get (at least some of) the hotkeys to work 
+* hotkeys.md contains instructions on how to get (at least some of) the hotkeys to work
+* microSD.md  contains instructions on how to get the microSD reader to work
 
 Thanks to the UbuntuForums.org (especially forum user HarryHarryHarry) and AskUbuntu.com communities for they invaluable help
 
