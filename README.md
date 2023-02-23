@@ -7,7 +7,11 @@ A collection of documents on how to fix issues running Linux (Debian/Ubuntu/deri
 * headphones.md contains instructions on how to get audio from the headphones
 * resume.md contains instructions on how to get the touchpad working again after resuming from suspension
 * hotkeys.md contains instructions on how to get (at least some of) the hotkeys to work
-* microSD.md  contains instructions on how to get the microSD reader to work
+* microSD.md contains instructions on how to get the microSD reader to work
+
+Additional documents:
+
+* zswap.md contains instructions on how to reduce memory swaps to eMMC by using zswap Linux kernel module
 
 Thanks to the UbuntuForums.org (especially forum user HarryHarryHarry) and AskUbuntu.com communities for they invaluable help
 
