@@ -1,8 +1,8 @@
-The X205TA has 2 GiB of RAM and you can't add more. This amount of RAM is pretty low nowadays, so we need some swap (how to setup swap is OOT here).
+The Asus X205TA has 2 GiB of RAM and you can't install more than that. This amount of RAM is pretty low nowadays, so we surely need some swap (how to setup swap is OT here).
 
-But the X205TA eMMC is *very* slow so we want to make sure we swap as rarely as possible.
+But the X205TA eMMC is *very* slow so we want to make sure we perform I/O as rarely as possible.
 
-One option could be to use Linux's zswap kernel module. It basically creates a *compressed* swap *cache*: instead of swapping to eMMC you will (often) have zswap compress the page and keep it in RAM.
+One option could be to use Linux's zswap kernel module. It basically creates a *compressed* swap *cache*: instead of swapping to eMMC you will (often) have zswap compress the memory page being removed and keep it in its pool in RAM.
 
 To enable zswap, you have to add `zswap.enabled=1` at the end of the `GRUB_CMDLINE_LINUX_DEFAULT` in file `/etc/default/grub`, example:
 
@@ -13,6 +13,11 @@ GRUB_CMDLINE_LINUX_DEFAULT="quiet splash zswap.enabled=1"
 then issue `sudo grub-mkconfig` and reboot.
 
 To check that zswap is indeed enabled you can do `cat /sys/module/zswap/parameters/enabled`: 'Y' means enabled, 'N' means something hasn't been set up correctly, so you need to verify.
+
+Also, we need to make sure to lower the chance of a page swap by lowering the swappiness of the system (how to do this is OT here, there's plenty of information on the Internet about it).
+
+A good value for vm.swappiness on a 2 GiB RAM system (with zswap enabled) seems to be 25, according to my tests. You might experiment with it, finetuning it from 15 to 35 to your liking.
+
 
 Advanced usage
 ==============
@@ -28,6 +33,8 @@ GRUB_CMDLINE_LINUX_DEFAULT="quiet splash zswap.enabled=1 zswap.max_pool_percent=
 remember to issue `sudo grub-mkconfig` and reboot.
 
 To check that zswap's pool is indeed changed you can do `cat /sys/module/zswap/parameters/max_pool_percent` and it should show 50.
+
+I don't suggest using a much higher value, as some RAM needs to be kept available to actual processes.
 
 
 Optional even more advanced usage
