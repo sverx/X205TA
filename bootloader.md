@@ -1,58 +1,44 @@
-The ASUS X205TA needs a 32 bit UEFI bootloader even if its processor and the operating system are 64 bit.
+The ASUS X205TA needs a 32 bit UEFI bootloader even if its processor and the operating system you are installing are 64 bit.
 
-This is how to install a 32 bit bootloader on your eMMC after you've installed the Linux distro in case the installation failed to install it.
+This is how to install a 32 bit bootloader on your eMMC after you've installed the Linux distro in case the installation failed to install it correctly.
 
-Before rebooting you need to run:
+First, *reboot into your live environment again*, so you're in a 'clean' environment.
+
+Then, as root, issue the following commands:
 
 ```
 sudo apt-get update
-sudo apt-get install grub-efi-ia32
+sudo apt-get install grub-efi-ia32 grub-efi-ia32-bin
 ```
 
-Then, find the right block device partition where the root of your linux installation is located using `lsblk` or `blkid`.
-
-Then issue the following commands (note the first command needs you to use the correct destination block device partition instead of *mmcblkXpY*):
+then create two directories to be used as mountpoints:
 
 ```
-# mount the rootfs partition (change X and Y) on /mnt
-sudo mount /dev/mmcblkXpY /mnt
-cd /mnt
-sudo mount --bind /proc proc
-sudo mount --bind /sys sys
-sudo mount --bind /dev dev
-sudo mount --bind /dev/pts dev/pts
-sudo mount --bind /run run
-sudo chroot .
-
-# you are now chrooted into the linux installation that is on the eMMC
-# firstly, attempt to mount all filesystems listed in /etc/fstab, because the efi partition should be mounted
-mount -a
-
-# probably not necessary, but to be sure the EFI variables are properly exposed to userspace run:
-modprobe efivarfs
-mount -t efivarfs efivarfs /sys/firmware/efi/efivars
-
-# this is the main command: it installs 32bit efi grub to the efi partition
-grub-install --target=i386-efi --bootloader-id=Linux --efi-directory=/boot/efi --recheck
-
-# (this command will fail if the necessary grub libraries are not installed, they should be in /usr/lib/grub/i386-efi/)
-# (you had to use `sudo apt-get install grub-efi-ia32` to install the missing libraries before attempting this fix)
-# (some distros use grub2-install instead of grub-install)
-
-# generate grub.cfg
-grub-mkconfig -o /boot/grub/grub.cfg
-# (some distros use grub2-mkconfig)
-# (likewise, on some distros you should install grub.cfg to /boot/grub2/ instead of /boot/grub/ – check which directory already exists)
-
-# exit the chroot environment
-exit
-
-# reboot the laptop
-sudo reboot
+mkdir /mnt/efi
+mkdir /mnt/root
 ```
 
-original source: https://ubuntuforums.org/showthread.php?t=2379657&p=13719125#post13719125
+Now find the block device partition names where the root of your linux installation is located using `lsblk` or `blkid` (or tools such as GParted), then find also the name of the UEFI partition *note those partition names down*
+
+Then issue the following commands (note the command needs you to use the correct destination block device partitions instead of *mmcblkXpY* and *mmcblkXpZ*):
+
+```
+# mount the rootfs partition (change X and Y) on /mnt/root
+sudo mount /dev/mmcblkXpY /mnt/root
+
+# mount the efi partition (change X and Z) on /mnt/efi
+sudo mount /dev/mmcblkXpZ /mnt/efi
+```
+
+Finally install the bootloader:
+
+```
+grub-install --recheck --root-directory=/mnt/root --efi-directory=/mnt/efi
+```
+
+When completed, turn off the computer and remove the CD/DVD/USB unit with the live environment.
+
+Turn the PC on again, it should boot correctly now!
 
 original source: https://askubuntu.com/questions/1040519/installing-32bit-bootloader-on-64bit-ubuntu-solved
-
 
