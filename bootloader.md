@@ -4,7 +4,7 @@ This is how to install a 32 bit bootloader on your eMMC after you've installed t
 
 First, *reboot into your live environment again*, so you're in a 'clean' environment.
 
-Then, as root, issue the following commands:
+Then issue the following commands:
 
 ```
 sudo apt-get update
@@ -14,8 +14,8 @@ sudo apt-get install grub-efi-ia32 grub-efi-ia32-bin
 then create two directories to be used as mountpoints:
 
 ```
-mkdir /mnt/efi
-mkdir /mnt/root
+sudo mkdir /mnt/efi
+sudo mkdir /mnt/root
 ```
 
 Now find the block device partition names where the root of your linux installation is located using `lsblk` or `blkid` (or tools such as GParted), then find also the name of the UEFI partition *note those partition names down*
@@ -33,7 +33,7 @@ sudo mount /dev/mmcblkXpZ /mnt/efi
 Finally install the bootloader:
 
 ```
-grub-install --recheck --root-directory=/mnt/root --efi-directory=/mnt/efi
+sudo grub-install --recheck --root-directory=/mnt/root --efi-directory=/mnt/efi
 ```
 
 When completed, turn off the computer and remove the CD/DVD/USB unit with the live environment.
