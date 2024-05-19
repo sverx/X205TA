@@ -4,6 +4,7 @@ A collection of documents on how to fix issues running Linux (Debian/Ubuntu/deri
 
 * prepare.md contains instructions on how to prepare the installation USB key
 * bootloader.md contains instructions on how to install the 32 bit UEFI bootloader
+* wifi.md contains instructions on how to get the wifi to work / to make it work with 5GHz networks too
 * bluetooth.md contains instructions on how to fix the bluetooth issues
 * headphones.md contains instructions on how to get audio from the headphones
 * resume.md contains instructions on how to get the touchpad working again after resuming from suspension
