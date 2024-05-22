@@ -3,7 +3,7 @@ Bluetooth might not work out of the box (depending on kernel version).
 First, you might need a firmware. Check if `BCM43341B0.hcd` is present in your `/lib/firmware/brcm/` folder. If that isn't there, copy this file from this repository or download it directly there:
 
 ```
-sudo wget https://raw.githubusercontent.com/harryharryharry/x205ta-iso2usb-files/master/BCM43341B0.hcd -O /lib/firmware/brcm/BCM43341B0.hcd
+sudo wget https://raw.githubusercontent.com/sverx/X205TA/master/files/BCM43341B0.hcd -O /lib/firmware/brcm/BCM43341B0.hcd
 ```
 
 * On kernel >=5.0.20: add a systemd service to set the Bluetooth device address.
