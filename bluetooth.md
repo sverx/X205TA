@@ -1,6 +1,6 @@
 Bluetooth might not work out of the box (depending on kernel version).
 
-You might need to download a firmware file:
+First, you might need a firmware. Check if `BCM43341B0.hcd` is present in your `/lib/firmware/brcm/` folder. If that isn't there, copy this file from this repository or download it directly there:
 
 ```
 sudo wget https://raw.githubusercontent.com/harryharryharry/x205ta-iso2usb-files/master/BCM43341B0.hcd -O /lib/firmware/brcm/BCM43341B0.hcd
@@ -17,13 +17,13 @@ After=bluetooth.service
 Requires=bluetooth.service
 
 [Service]
-ExecStart=/usr/bin/btmgmt -i hci0 public-addr {YOUR_BLUETOOTH_MAC_ADDRESS}
+ExecStart=/usr/bin/btmgmt -i hci0 public-addr ###BLUETOOTH_MAC_ADDRESS###
 Restart=on-failure
 
 [Install]
 WantedBy=bluetooth.target
 ```
-replacing `{YOUR_BLUETOOTH_MAC_ADDRESS}` in the file with some value as `43:34:1B:01:02:03`
+replacing `###BLUETOOTH_MAC_ADDRESS###` in the file with some (any) value as `43:34:1B:01:02:03` for instance.
 
 Then:
 ```
