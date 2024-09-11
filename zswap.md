@@ -70,6 +70,30 @@ To check that everything is correct, you can issue `grep -R . /sys/module/zswap/
 /sys/module/zswap/parameters/accept_threshold_percent:90
 ```
 
+And if you want to see how your zswap is performing, you can issue `sudo grep -R . /sys/kernel/debug/zswap/`.
+
+For example, this is the output I get after browsing for a few hours, when I eventually get to the point where the computer uses up all of the zswap pool:
+
+```
+/sys/kernel/debug/zswap/same_filled_pages:119898
+/sys/kernel/debug/zswap/stored_pages:568366
+/sys/kernel/debug/zswap/pool_total_size:866185216
+/sys/kernel/debug/zswap/duplicate_entry:0
+/sys/kernel/debug/zswap/written_back_pages:10
+/sys/kernel/debug/zswap/reject_compress_poor:91592
+/sys/kernel/debug/zswap/reject_kmemcache_fail:0
+/sys/kernel/debug/zswap/reject_alloc_fail:0
+/sys/kernel/debug/zswap/reject_reclaim_fail:0
+/sys/kernel/debug/zswap/pool_limit_hit:12387
+```
+
+with this data, you can calculate how much compressed memory you're using. Let's try: `pool_total_size:866185216` means we're using approximately 826 MiB of physical RAM (which is a bit less than 50% of all the physical RAM onboard, as expected).
+
+Then we have `stored_pages:568366` which means we're storing approximately 2220 MiB of compressed RAM in that space. But there are also `same_filled_pages:119898` (approximately 468 MiB) that do not even use the pool (note: one page is 4 KiB).
+
+So 2220 MiB + 468 MiB = 2688 MiB, but requiring instead 826 MiB of physical RAM only, which means with zswap we just virtually gained approximately 1.85 GiB additional memory.
+
+
 sources:
  - https://ubuntu.com/blog/how-low-can-you-go-running-ubuntu-desktop-on-a-2gb-raspberry-pi-4
 
