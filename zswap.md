@@ -10,7 +10,7 @@ To enable zswap, you have to add `zswap.enabled=1` at the end of the `GRUB_CMDLI
 GRUB_CMDLINE_LINUX_DEFAULT="quiet splash zswap.enabled=1"
 ```
 
-then issue `sudo grub-mkconfig` and reboot.
+then issue `sudo update-grub` and reboot.
 
 To check that zswap is indeed enabled you can do `cat /sys/module/zswap/parameters/enabled`: 'Y' means enabled, 'N' means something hasn't been set up correctly, so you need to verify.
 
@@ -30,7 +30,7 @@ One option is to allow the swap cache to grow bigger, up to use 50% of our RAM (
 GRUB_CMDLINE_LINUX_DEFAULT="quiet splash zswap.enabled=1 zswap.max_pool_percent=50"
 ```
 
-remember to issue `sudo grub-mkconfig` and reboot.
+remember to issue `sudo update-grub` and reboot.
 
 To check that zswap's pool is indeed changed you can do `cat /sys/module/zswap/parameters/max_pool_percent` and it should show 50.
 
@@ -57,7 +57,7 @@ Now, to actually tell zswap to use those, we also need to update the line `GRUB_
 GRUB_CMDLINE_LINUX_DEFAULT="quiet splash zswap.enabled=1 zswap.max_pool_percent=50 zswap.zpool=z3fold zswap.compressor=lz4"
 ```
 
-then of course remember to issue `sudo grub-mkconfig` and reboot.
+then of course remember to issue `sudo update-grub` and reboot.
 
 To check that everything is correct, you can issue `grep -R . /sys/module/zswap/parameters` and the output should then be:
 
